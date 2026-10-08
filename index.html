@@ -27,6 +27,16 @@
       padding: 0;
     }
 
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
     html {
       scroll-behavior: smooth;
     }
@@ -198,33 +208,22 @@
     }
 
     .hero-card {
-      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       min-height: 420px;
       overflow: hidden;
-      border-radius: 150px 150px 24px 24px;
+      padding: 24px;
+      border-radius: 24px;
       box-shadow: var(--shadow);
-      background:
-        linear-gradient(rgba(13, 34, 54, 0.12), rgba(13, 34, 54, 0.68)),
-        url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=900&q=80") center/cover;
+      background: var(--white);
     }
 
-    .hero-badge {
-      position: absolute;
-      right: 24px;
-      bottom: 24px;
-      left: 24px;
-      padding: 22px;
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      border-radius: 16px;
-      color: var(--white);
-      background: rgba(13, 34, 54, 0.72);
-      backdrop-filter: blur(10px);
-    }
-
-    .hero-badge strong {
+    .hero-logo {
       display: block;
-      margin-bottom: 4px;
-      font-size: 1.3rem;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
     }
 
     .highlights {
@@ -410,6 +409,105 @@
     .feature span {
       color: #aebdca;
       font-size: 0.9rem;
+    }
+
+    .results {
+      background: var(--white);
+    }
+
+    .results-slideshow {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      background: var(--cream);
+    }
+
+    .result-slide {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      height: clamp(360px, 58vw, 700px);
+      margin: 0;
+      padding: 28px 70px 70px;
+    }
+
+    .result-slide.is-active {
+      display: flex;
+    }
+
+    .result-slide img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .result-caption {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      padding: 14px 70px;
+      color: var(--white);
+      background: rgba(13, 34, 54, 0.92);
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .slideshow-button {
+      position: absolute;
+      top: 50%;
+      z-index: 2;
+      display: grid;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 50%;
+      color: var(--white);
+      background: rgba(13, 34, 54, 0.82);
+      cursor: pointer;
+      font: inherit;
+      font-size: 1.6rem;
+      line-height: 1;
+      place-items: center;
+      transform: translateY(-50%);
+    }
+
+    .slideshow-button:hover,
+    .slideshow-button:focus-visible {
+      background: var(--blue);
+    }
+
+    .slideshow-button.previous {
+      left: 16px;
+    }
+
+    .slideshow-button.next {
+      right: 16px;
+    }
+
+    .slideshow-dots {
+      display: flex;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 22px;
+    }
+
+    .slideshow-dot {
+      width: 10px;
+      height: 10px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: #b8c2ca;
+      cursor: pointer;
+    }
+
+    .slideshow-dot.is-active {
+      background: var(--blue);
+      transform: scale(1.25);
     }
 
     .contact {
@@ -611,7 +709,8 @@
 
       .hero-card {
         min-height: 330px;
-        border-radius: 100px 100px 18px 18px;
+        padding: 16px;
+        border-radius: 18px;
       }
 
       .highlight {
@@ -624,6 +723,29 @@
 
       .about-image {
         min-height: 340px;
+      }
+
+      .result-slide {
+        height: 480px;
+        padding: 18px 50px 64px;
+      }
+
+      .result-caption {
+        padding: 12px 50px;
+        font-size: 0.9rem;
+      }
+
+      .slideshow-button {
+        width: 38px;
+        height: 38px;
+      }
+
+      .slideshow-button.previous {
+        left: 8px;
+      }
+
+      .slideshow-button.next {
+        right: 8px;
       }
 
       .contact-copy,
@@ -649,6 +771,7 @@
         <a href="#home">Home</a>
         <a href="#courses">Courses</a>
         <a href="#about">About</a>
+        <a href="#results">Results</a>
         <a href="#contact">Contact</a>
       </div>
       <a class="button" href="#contact">Enquire Now</a>
@@ -670,11 +793,8 @@
             <a class="button button-secondary" href="#about">Discover Our Institute</a>
           </div>
         </div>
-        <div class="hero-card" role="img" aria-label="Students walking on an institute campus">
-          <div class="hero-badge">
-            <strong>Your journey starts here.</strong>
-            <span>Learn with purpose. Graduate with confidence.</span>
-          </div>
+        <div class="hero-card">
+          <img class="hero-logo" src="sims-logo.png" alt="SIMS Institute of Mathematics and Science logo">
         </div>
       </div>
     </section>
@@ -791,6 +911,53 @@
       </div>
     </section>
 
+    <section class="results" id="results">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Student achievements</span>
+            <h2>Results that make us proud.</h2>
+          </div>
+          <p>
+            Celebrating the dedication of our students, with the latest academic
+            year shown first.
+          </p>
+        </div>
+
+        <div class="results-slideshow" aria-roledescription="carousel" aria-label="Student results">
+          <figure class="result-slide is-active">
+            <img src="results/result (1).jpeg" alt="SIMS 2025–2026 Mathematics centurion achievement">
+            <figcaption class="result-caption">2025–2026 Achievement</figcaption>
+          </figure>
+          <figure class="result-slide">
+            <img src="results/result (3).jpeg" alt="SIMS 2025–2026 Class XII Mathematics and Chemistry toppers" loading="lazy">
+            <figcaption class="result-caption">2025–2026 Class XII Results</figcaption>
+          </figure>
+          <figure class="result-slide">
+            <img src="results/result (6).jpeg" alt="SIMS 2025–2026 Class X toppers" loading="lazy">
+            <figcaption class="result-caption">2025–2026 Class X Results</figcaption>
+          </figure>
+          <figure class="result-slide">
+            <img src="results/result (2).jpeg" alt="SIMS 2023–2024 Class X toppers" loading="lazy">
+            <figcaption class="result-caption">2023–2024 Class X Results</figcaption>
+          </figure>
+          <figure class="result-slide">
+            <img src="results/result (4).jpeg" alt="SIMS 2023–2024 Class X achievement" loading="lazy">
+            <figcaption class="result-caption">2023–2024 Class X Results</figcaption>
+          </figure>
+          <figure class="result-slide">
+            <img src="results/result (5).jpeg" alt="SIMS 2023–2024 Class XII achievement" loading="lazy">
+            <figcaption class="result-caption">2023–2024 Class XII Results</figcaption>
+          </figure>
+
+          <button class="slideshow-button previous" type="button" aria-label="Show previous result">‹</button>
+          <button class="slideshow-button next" type="button" aria-label="Show next result">›</button>
+        </div>
+        <div class="slideshow-dots" aria-label="Choose a result slide"></div>
+        <p id="slideshow-status" class="sr-only" aria-live="polite"></p>
+      </div>
+    </section>
+
     <section class="contact" id="contact">
       <div class="container contact-card">
         <div class="contact-copy">
@@ -844,6 +1011,76 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    const slideshow = document.querySelector(".results-slideshow");
+    const slides = Array.from(slideshow.querySelectorAll(".result-slide"));
+    const dotsContainer = document.querySelector(".slideshow-dots");
+    const slideshowStatus = document.getElementById("slideshow-status");
+    let activeSlide = 0;
+    let slideshowTimer;
+
+    const dots = slides.map(function (_, index) {
+      const dot = document.createElement("button");
+      dot.className = "slideshow-dot";
+      dot.type = "button";
+      dot.setAttribute("aria-label", "Show result " + (index + 1));
+      dot.addEventListener("click", function () {
+        showSlide(index);
+        restartSlideshow();
+      });
+      dotsContainer.appendChild(dot);
+      return dot;
+    });
+
+    function showSlide(index) {
+      activeSlide = (index + slides.length) % slides.length;
+      slides.forEach(function (slide, slideIndex) {
+        const isActive = slideIndex === activeSlide;
+        slide.classList.toggle("is-active", isActive);
+        slide.setAttribute("aria-hidden", String(!isActive));
+      });
+      dots.forEach(function (dot, dotIndex) {
+        const isActive = dotIndex === activeSlide;
+        dot.classList.toggle("is-active", isActive);
+        dot.setAttribute("aria-current", isActive ? "true" : "false");
+      });
+      slideshowStatus.textContent =
+        "Showing result " + (activeSlide + 1) + " of " + slides.length;
+    }
+
+    function startSlideshow() {
+      window.clearInterval(slideshowTimer);
+      slideshowTimer = window.setInterval(function () {
+        showSlide(activeSlide + 1);
+      }, 5000);
+    }
+
+    function restartSlideshow() {
+      window.clearInterval(slideshowTimer);
+      startSlideshow();
+    }
+
+    slideshow.querySelector(".previous").addEventListener("click", function () {
+      showSlide(activeSlide - 1);
+      restartSlideshow();
+    });
+
+    slideshow.querySelector(".next").addEventListener("click", function () {
+      showSlide(activeSlide + 1);
+      restartSlideshow();
+    });
+
+    slideshow.addEventListener("mouseenter", function () {
+      window.clearInterval(slideshowTimer);
+    });
+    slideshow.addEventListener("mouseleave", startSlideshow);
+    slideshow.addEventListener("focusin", function () {
+      window.clearInterval(slideshowTimer);
+    });
+    slideshow.addEventListener("focusout", restartSlideshow);
+
+    showSlide(0);
+    startSlideshow();
 
     document.getElementById("enquiry-form").addEventListener("submit", function (event) {
       event.preventDefault();
